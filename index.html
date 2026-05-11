@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vivek Biswas — Data Analyst Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --surface2: #1c1c26;
+    --accent: #4f8ef7;
+    --accent2: #a78bfa;
+    --green: #34d399;
+    --orange: #fb923c;
+    --text: #e8e8f0;
+    --muted: #6b6b80;
+    --border: #2a2a38;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(79,142,247,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    bottom: -150px;
+    left: -150px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(167,139,250,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(79,142,247,0.3);
+    padding: 6px 14px;
+    border-radius: 2px;
+    margin-bottom: 32px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s ease 0.1s both;
+  }
+
+  .hero h1 span {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.7;
+    font-weight: 300;
+    animation: fadeUp 0.6s ease 0.2s both;
+    margin-bottom: 48px;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s ease 0.3s both;
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .meta-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .meta-value {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 60px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    animation: fadeUp 0.6s ease 0.5s both;
+  }
+
+  .scroll-line {
+    width: 40px;
+    height: 1px;
+    background: var(--muted);
+  }
+
+  /* Section */
+  section {
+    padding: 100px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 60px;
+    line-height: 1.1;
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 60px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .stat {
+    padding: 0 40px;
+    border-right: 1px solid var(--border);
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .stat:first-child { padding-left: 0; }
+  .stat:last-child { border-right: none; }
+
+  .stat-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-weight: 300;
+  }
+
+  /* Project cards */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .project-card {
+    background: var(--surface);
+    padding: 48px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s ease;
+    cursor: default;
+  }
+
+  .project-card:hover {
+    background: var(--surface2);
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: left;
+  }
+
+  .project-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .project-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+  }
+
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+
+  .project-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 28px;
+    font-weight: 300;
+  }
+
+  .project-findings {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 20px;
+    margin-bottom: 28px;
+    border-radius: 2px;
+  }
+
+  .finding-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .finding-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text);
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+
+  .finding-item:last-child { margin-bottom: 0; }
+
+  .finding-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--green);
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .ptag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+
+  .ptag.highlight {
+    border-color: rgba(79,142,247,0.4);
+    color: var(--accent);
+    background: rgba(79,142,247,0.05);
+  }
+
+  /* Chart visualization */
+  .chart-preview {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 20px;
+    margin-bottom: 28px;
+    border-radius: 2px;
+  }
+
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 80px;
+  }
+
+  .bar-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    height: 100%;
+    justify-content: flex-end;
+  }
+
+  .bar {
+    width: 100%;
+    background: linear-gradient(180deg, var(--accent) 0%, rgba(79,142,247,0.4) 100%);
+    border-radius: 2px 2px 0 0;
+    animation: growUp 1s ease both;
+  }
+
+  .bar-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  @keyframes growUp {
+    from { transform: scaleY(0); transform-origin: bottom; }
+    to { transform: scaleY(1); transform-origin: bottom; }
+  }
+
+  /* Pie preview */
+  .pie-preview {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .pie-svg { flex-shrink: 0; }
+
+  .pie-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* Skills section */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 60px;
+  }
+
+  .skill-card {
+    background: var(--surface);
+    padding: 32px;
+    transition: background 0.2s;
+  }
+
+  .skill-card:hover { background: var(--surface2); }
+
+  .skill-icon {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
+  .skill-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .skill-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .skill-level {
+    margin-top: 16px;
+    height: 2px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .skill-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+    animation: growWidth 1.2s ease both;
+  }
+
+  @keyframes growWidth {
+    from { width: 0; }
+  }
+
+  /* Journey timeline */
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: linear-gradient(180deg, var(--accent), var(--accent2), transparent);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 48px;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -44px;
+    top: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+  }
+
+  .timeline-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+
+  .timeline-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .timeline-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* What's next */
+  .next-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .next-card {
+    background: var(--surface);
+    padding: 40px;
+  }
+
+  .next-card.active {
+    background: linear-gradient(135deg, rgba(79,142,247,0.08), rgba(167,139,250,0.05));
+    border-left: 2px solid var(--accent);
+  }
+
+  .next-status {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .next-status.current { color: var(--green); }
+  .next-status.upcoming { color: var(--muted); }
+
+  .next-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .next-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 48px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: gap;
+  }
+
+  .footer-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .footer-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 60px;
+  }
+
+  @media (max-width: 768px) {
+    .hero, section, footer { padding: 60px 24px; }
+    .stats-bar { padding: 32px 24px; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+    .stat { border-right: none; padding: 0; }
+    .projects-grid, .skills-grid, .next-grid { grid-template-columns: 1fr; }
+    .divider { margin: 0 24px; }
+    .scroll-hint { left: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="tag">📊 Data Analyst Portfolio — Project 01</div>
+  <h1>Vivek<br><span>Biswas</span></h1>
+  <p class="hero-sub">Transitioning into data analytics through hands-on execution. Building real skills — Excel, SQL, Power BI — one project at a time.</p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <span class="meta-label">Location</span>
+      <span class="meta-value">India</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Education</span>
+      <span class="meta-value">BA (Hons) English</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Current Focus</span>
+      <span class="meta-value">Excel + Data Analytics</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Stage</span>
+      <span class="meta-value">Beginner → Building</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    scroll to explore
+  </div>
+</div>
+
+<!-- Stats -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-number">3</div>
+    <div class="stat-label">Projects Completed</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">3</div>
+    <div class="stat-label">Dashboards Built</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">7</div>
+    <div class="stat-label">Products Analysed</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">7</div>
+    <div class="stat-label">Days of Learning</div>
+  </div>
+</div>
+
+<!-- Projects -->
+<section>
+  <div class="section-label">// work</div>
+  <div class="section-title">Projects</div>
+
+  <div class="projects-grid">
+
+    <!-- Project 1 -->
+    <div class="project-card">
+      <div class="project-number">PROJECT — 01</div>
+      <div class="project-title">Regional Sales Analysis</div>
+      <div class="project-desc">Analysed sales performance across 5 Indian regions using pivot tables and a bar chart with interactive product slicer.</div>
+
+      <div class="chart-preview">
+        <div class="finding-label">Chart Preview — Sales by Region</div>
+        <div class="bar-chart">
+          <div class="bar-wrap">
+            <div class="bar" style="height:90%;animation-delay:0.1s"></div>
+            <div class="bar-label">North</div>
+          </div>
+          <div class="bar-wrap">
+            <div class="bar" style="height:85%;animation-delay:0.2s"></div>
+            <div class="bar-label">Central</div>
+          </div>
+          <div class="bar-wrap">
+            <div class="bar" style="height:76%;animation-delay:0.3s"></div>
+            <div class="bar-label">East</div>
+          </div>
+          <div class="bar-wrap">
+            <div class="bar" style="height:68%;animation-delay:0.4s"></div>
+            <div class="bar-label">South</div>
+          </div>
+          <div class="bar-wrap">
+            <div class="bar" style="height:63%;animation-delay:0.5s"></div>
+            <div class="bar-label">West</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-findings">
+        <div class="finding-label">Key Findings</div>
+        <div class="finding-item"><div class="finding-dot"></div>North region leads with ₹1,35,168 in total sales</div>
+        <div class="finding-item"><div class="finding-dot"></div>Central closely follows at ₹1,33,685</div>
+        <div class="finding-item"><div class="finding-dot"></div>West is lowest at ₹99,157 — potential growth area</div>
+        <div class="finding-item"><div class="finding-dot"></div>Total revenue across all regions: ₹5,95,878</div>
+      </div>
+
+      <div class="project-tags">
+        <span class="ptag highlight">Excel</span>
+        <span class="ptag highlight">Pivot Table</span>
+        <span class="ptag highlight">Bar Chart</span>
+        <span class="ptag">Slicer</span>
+        <span class="ptag">Data Cleaning</span>
+      </div>
+    </div>
+
+    <!-- Project 2 -->
+    <div class="project-card">
+      <div class="project-number">PROJECT — 02</div>
+      <div class="project-title">Product Revenue Breakdown</div>
+      <div class="project-desc">Identified top-performing products by revenue using pivot tables and a pie chart showing percentage contribution of each product.</div>
+
+      <div class="chart-preview">
+        <div class="finding-label">Chart Preview — Sales Share by Product</div>
+        <div class="pie-preview">
+          <svg class="pie-svg" width="90" height="90" viewBox="0 0 90 90">
+            <!-- Pie slices approximate percentages: Laptop 19, Desk 16, Chair 15, Tablet 15, Phone 13, Printer 12, Monitor 10 -->
+            <circle r="28" cx="45" cy="45" fill="none" stroke="#4f8ef7" stroke-width="28" stroke-dasharray="34 144" stroke-dashoffset="0"/>
+            <circle r="28" cx="45" cy="45" fill="none" stroke="#a78bfa" stroke-width="28" stroke-dasharray="29 144" stroke-dashoffset="-34"/>
+            <circle r="28" cx="45" cy="45" fill="none" stroke="#34d399" stroke-width="28" stroke-dasharray="27 144" stroke-dashoffset="-63"/>
+            <circle r="28" cx="45" cy="45" fill="none" stroke="#fb923c" stroke-width="28" stroke-dasharray="27 144" stroke-dashoffset="-90"/>
+            <circle r="28" cx="45" cy="45" fill="none" stroke="#f472b6" stroke-width="28" stroke-dasharray="23 144" stroke-dashoffset="-117"/>
+            <circle r="28" cx="45" cy="45" fill="none" stroke="#facc15" stroke-width="28" stroke-dasharray="22 144" stroke-dashoffset="-140"/>
+            <circle cx="45" cy="45" r="14" fill="#13131a"/>
+          </svg>
+          <div class="pie-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#4f8ef7"></div>Laptop — 19%</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#a78bfa"></div>Desk — 16%</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#34d399"></div>Chair — 15%</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#fb923c"></div>Tablet — 15%</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#f472b6"></div>Phone — 13%</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#facc15"></div>Printer — 12%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-findings">
+        <div class="finding-label">Key Findings</div>
+        <div class="finding-item"><div class="finding-dot"></div>Laptop is top revenue product at ₹1,16,462 (19%)</div>
+        <div class="finding-item"><div class="finding-dot"></div>Monitor is lowest contributor at ₹60,130 (10%)</div>
+        <div class="finding-item"><div class="finding-dot"></div>Top 3 products (Laptop, Desk, Chair) = 50% of revenue</div>
+        <div class="finding-item"><div class="finding-dot"></div>Cleaned blank row data quality issue independently</div>
+      </div>
+
+      <div class="project-tags">
+        <span class="ptag highlight">Excel</span>
+        <span class="ptag highlight">Pivot Table</span>
+        <span class="ptag highlight">Pie Chart</span>
+        <span class="ptag">Data Cleaning</span>
+        <span class="ptag">Sorting</span>
+      </div>
+    </div>
+
+    <!-- Project 3 -->
+    <div class="project-card" style="grid-column: 1 / -1;">
+      <div class="project-number">PROJECT — 03</div>
+      <div class="project-title">Sales Performance Dashboard</div>
+      <div class="project-desc">Built a complete end-to-end Excel dashboard combining KPIs, charts, and summary tables — pulling live data across multiple sheets using cross-sheet referencing.</div>
+
+      <div class="project-findings">
+        <div class="finding-label">Dashboard Components</div>
+        <div class="finding-item"><div class="finding-dot"></div>3 KPI cards — Total Revenue ₹5,95,878 · Total Transactions 199 · Top Product</div>
+        <div class="finding-item"><div class="finding-dot"></div>Bar chart — Regional sales performance across 5 regions</div>
+        <div class="finding-item"><div class="finding-dot"></div>Pie chart — Product revenue share across 7 products</div>
+        <div class="finding-item"><div class="finding-dot"></div>Summary table — High Value (170 transactions, ₹5,87,709) vs Low Value (29 transactions, ₹8,168)</div>
+        <div class="finding-item"><div class="finding-dot"></div>SUMIFS analysis — Product x Region combinations e.g. Laptop in North = ₹33,030</div>
+      </div>
+
+      <div class="project-findings" style="border-color: rgba(167,139,250,0.3);">
+        <div class="finding-label" style="color: var(--accent2)">Formulas Used</div>
+        <div class="finding-item"><div class="finding-dot" style="background:var(--accent2)"></div>IF — Revenue categorization (High Value / Low Value)</div>
+        <div class="finding-item"><div class="finding-dot" style="background:var(--accent2)"></div>COUNTIF / SUMIF — Transaction counts and revenue totals by category</div>
+        <div class="finding-item"><div class="finding-dot" style="background:var(--accent2)"></div>SUMIFS — Multi-condition analysis by Product AND Region simultaneously</div>
+        <div class="finding-item"><div class="finding-dot" style="background:var(--accent2)"></div>XLOOKUP — Dynamic product search with "Not Found" error handling</div>
+        <div class="finding-item"><div class="finding-dot" style="background:var(--accent2)"></div>UNIQUE — Auto-populated product list from raw data</div>
+        <div class="finding-item"><div class="finding-dot" style="background:var(--accent2)"></div>Cross-sheet referencing — Dashboard pulls live data from Summary and main source sheets</div>
+      </div>
+
+      <div class="project-tags">
+        <span class="ptag highlight">Excel Dashboard</span>
+        <span class="ptag highlight">SUMIFS</span>
+        <span class="ptag highlight">XLOOKUP</span>
+        <span class="ptag highlight">KPI Design</span>
+        <span class="ptag">Cross-sheet Reference</span>
+        <span class="ptag">IF Formula</span>
+        <span class="ptag">COUNTIF</span>
+        <span class="ptag">Business Insights</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Skills -->
+<section>
+  <div class="section-label">// tools & skills</div>
+  <div class="section-title">Current Skill Set</div>
+
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-icon">📊</div>
+      <div class="skill-name">Microsoft Excel</div>
+      <div class="skill-desc">Tables, Pivot Tables, Charts, Slicers, Data Cleaning, Number Formatting</div>
+      <div class="skill-level"><div class="skill-fill" style="width:55%"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🧹</div>
+      <div class="skill-name">Data Cleaning</div>
+      <div class="skill-desc">Identifying blank rows, fixing formats, removing duplicates, consistent structure</div>
+      <div class="skill-level"><div class="skill-fill" style="width:30%;animation-delay:0.1s"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">📈</div>
+      <div class="skill-name">Data Visualization</div>
+      <div class="skill-desc">Bar charts, Pie charts, chart titles, labels, legends, layout thinking</div>
+      <div class="skill-level"><div class="skill-fill" style="width:50%;animation-delay:0.2s"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🧠</div>
+      <div class="skill-name">Analytical Thinking</div>
+      <div class="skill-desc">Identifying top/bottom performers, asking business questions from data</div>
+      <div class="skill-level"><div class="skill-fill" style="width:55%;animation-delay:0.3s"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🗂️</div>
+      <div class="skill-name">Report Structure</div>
+      <div class="skill-desc">Sheet naming, header formatting, layout planning, professional presentation</div>
+      <div class="skill-level"><div class="skill-fill" style="width:35%;animation-delay:0.4s"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">✍️</div>
+      <div class="skill-name">Communication</div>
+      <div class="skill-desc">BA English background — strong written communication for reports and client work</div>
+      <div class="skill-level"><div class="skill-fill" style="width:75%;animation-delay:0.5s"></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Journey -->
+<section>
+  <div class="section-label">// journey</div>
+  <div class="section-title">Learning Timeline</div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-date">Days 1-7 — May 2026</div>
+      <div class="timeline-title">Excel Foundations Complete</div>
+      <div class="timeline-desc">Built 3 projects covering pivot tables, charts, slicers, data cleaning, IF, COUNTIF, SUMIF, SUMIFS, XLOOKUP, cross-sheet referencing, KPI design, and a full dashboard. Also started German language learning.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Upcoming — Week 2</div>
+      <div class="timeline-title">Excel Formulas & Logic</div>
+      <div class="timeline-desc">IF, SUMIFS, COUNTIFS, XLOOKUP — moving from visual analysis to formula-based analytical thinking.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Upcoming — Month 2</div>
+      <div class="timeline-title">SQL Basics</div>
+      <div class="timeline-desc">SELECT, WHERE, GROUP BY, JOIN — querying real databases for business insights.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Upcoming — Month 3</div>
+      <div class="timeline-title">Power BI Dashboards</div>
+      <div class="timeline-desc">Interactive dashboards, DAX basics, connecting data sources, building portfolio-grade reports.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- What's Next -->
+<section>
+  <div class="section-label">// roadmap</div>
+  <div class="section-title">What's Next</div>
+
+  <div class="next-grid">
+    <div class="next-card active">
+      <div class="next-status current">● Currently Learning</div>
+      <div class="next-title">Excel Mastery</div>
+      <div class="next-desc">Pivot tables ✓ · Charts ✓ · Data cleaning ✓ · Next: IF formulas, SUMIFS, COUNTIFS, XLOOKUP, full dashboard project</div>
+    </div>
+    <div class="next-card">
+      <div class="next-status upcoming">○ Up Next</div>
+      <div class="next-title">SQL Fundamentals</div>
+      <div class="next-desc">Writing queries, filtering data, joining tables, aggregations — the core skill every analyst needs.</div>
+    </div>
+    <div class="next-card">
+      <div class="next-status upcoming">○ Planned</div>
+      <div class="next-title">Power BI</div>
+      <div class="next-desc">Connecting Excel and SQL data into interactive visual dashboards for business reporting.</div>
+    </div>
+    <div class="next-card">
+      <div class="next-status upcoming">○ Parallel Track</div>
+      <div class="next-title">German Language (A1→C1)</div>
+      <div class="next-desc">Learning German for EU client communication. Goethe-Institut certification pathway. Daily 30-minute practice.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-name">Vivek Biswas</div>
+  <div class="footer-note">Portfolio v1.0 · Built May 2026 · Data Analyst in Progress</div>
+</footer>
+
+</body>
+</html>
